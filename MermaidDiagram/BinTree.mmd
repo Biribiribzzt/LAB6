@@ -1,0 +1,26 @@
+classDiagram
+    class ArrayBinaryTree~E~ {
+        -List<Node<E>> elements
+        -int size
+        -Node<E> root
+        +ArrayBinaryTree(int capacity)
+        +boolean isEmpty()
+        +int size()
+        +void add(E e)
+        +Node<E> getRoot()
+        +E getParent(int index)
+        +E getleftChild(int index)
+        +E getRightChild(int index)
+        +void PrintInOrder(int index)
+    }
+
+    class Node~E~ {
+        -E element
+        -Node<E> left
+        -Node<E> right
+        +Node(E e)
+        +E getElement()
+    }
+
+    ArrayBinaryTree~E~ "1" *-- "0..*" Node~E~ : elements
+    ArrayBinaryTree~E~ "1" *-- "1" Node~E~ : root

@@ -1,1 +1,1 @@
-This is code for Algorithm & Datastructure LAB6 
+This is the code for Algorithm & Datastructure LAB6
