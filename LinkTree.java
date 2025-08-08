@@ -2,12 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
+
+
 public class LinkTree<E> implements Tree<E> {
     private class Node implements Position<E> {
         private E element;
         private Node parent;
         private List<Node> children;
 
+
+        /**
+         * For Exercise 4, this class implements the Position interface.
+         */
         @Override
         public E getElement() throws IllegalStateException {
             return element;
@@ -23,10 +29,12 @@ public class LinkTree<E> implements Tree<E> {
                 positions.add(child);
             }
             return positions;
-
         }
         public boolean hasChildren() {
             return !children.isEmpty();
+        }
+        public boolean hasparent() {
+            return parent != null;
         }
         @Override
         public String toString() {
@@ -108,14 +116,47 @@ public class LinkTree<E> implements Tree<E> {
 
     @Override
     public Iterator<E> iterator() {
-        // Implementation for returning an iterator over the elements
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new Iterator<E>() {
+            private Iterator<Position<E>> positionIterator = positions().iterator();
+
+            @Override
+            public boolean hasNext() {
+                return positionIterator.hasNext();
+            }
+
+            @Override
+            public E next() {
+                return positionIterator.next().getElement();
+            }
+        };
     }
+
 
     @Override
     public Iterable<Position<E>> positions() {
-        // Implementation for returning all positions in the tree
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<Position<E>> List_positions = new ArrayList<>();
+        List_positions.add(root);
+        for (Position<E> index : GetAllChildpositions(root)) {
+            List_positions.add(index);
+        }
+        return List_positions;
+    }
+
+    private List<Position<E>> GetAllChildpositions(Position<E> p) {
+        Node node = validate(p);
+        List<Position<E>> nice = new ArrayList<>();
+        if(node.hasChildren())
+            for (Position<E> child : node.getChildren()) {
+                nice.add(child);
+                Node childcheck = validate(child);
+                if(childcheck.hasChildren()) {
+                    for (Position<E> grandChild : GetAllChildpositions(child)) {
+                        nice.add(grandChild);
+                    }
+                }
+                
+            }
+        return nice;
     }
 
     public Position<E> addRoot(E e) {
@@ -139,6 +180,19 @@ public class LinkTree<E> implements Tree<E> {
         size++;
         return newNode;
     }
+
+    public void remove(Position<E> p) throws IllegalArgumentException {
+        Node node = validate(p);
+        if (node == root) {
+            root = null;
+        } else {
+            Position<E> parent = node.getParent();
+            Node parentNode = validate(parent);
+            parentNode.children.remove(node);
+        }
+        size--;
+    }
+
     public void printfamilyTree(Position<E> p, String prefix) {
         Node node = validate(p);
         System.out.println(prefix + node.getElement());
@@ -146,11 +200,65 @@ public class LinkTree<E> implements Tree<E> {
             printfamilyTree(child, prefix + "  ");
         }
     }
+
     public void printfamilyTree(Position<E> p, String prefix,String suffix) {
         Node node = validate(p);
         System.out.println(prefix + node.getElement());
         for (Position<E> child : node.getChildren()) {
             printfamilyTree(child, prefix + suffix, suffix);
         }
+    }
+    // PreOrder and PostOrder methods for Exercise 5
+    public E PreOrder(Position<E> p, boolean isPrint,String prefix) {
+        Node node = validate(p);
+        E result = node.getElement();
+        if (isPrint) {
+            System.out.println(prefix + result);
+        }
+        if (node.hasChildren()) {
+            for (Position<E> child : node.getChildren()) {
+                result = PreOrder(child, isPrint, prefix + "  ");
+            }
+        }
+        return result;
+    }
+
+    public E PreOrder(Position<E> p, boolean isPrint,String prefix, String suffix) {
+        Node node = validate(p);
+        E result = node.getElement();
+        if (isPrint) {
+            System.out.println(prefix + result);
+        }
+        if (node.hasChildren()) {
+            for (Position<E> child : node.getChildren()) {
+                result = PreOrder(child, isPrint, prefix + suffix);
+            }
+        }
+        return result;
+    }
+    
+    public E PostOrder(Position<E> c, boolean isPrint,String prefix) {
+        Node node = validate(c);
+        E result = node.getElement();
+        Position<E> parent = node.getParent();
+        if (isPrint) {
+            System.out.println(prefix + result);
+        }
+        if (node.hasparent()) {
+            result = PostOrder(parent, isPrint, prefix + "  ");
+        }
+        return result;
+    }
+    public E PostOrder(Position<E> c, boolean isPrint,String prefix, String suffix) {
+        Node node = validate(c);
+        E result = node.getElement();
+        Position<E> parent = node.getParent();
+        if (isPrint) {
+            System.out.println(prefix + result);
+        }
+        if (node.hasparent()) {
+            result = PostOrder(parent, isPrint, prefix + suffix);
+        }
+        return result;
     }
 }
