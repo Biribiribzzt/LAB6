@@ -1,4 +1,4 @@
-public class Mathtest {
+public class Test_Math {
     public static void main(String[] args) {
         
         int x = 5;
