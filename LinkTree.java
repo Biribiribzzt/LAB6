@@ -237,28 +237,27 @@ public class LinkTree<E> implements Tree<E> {
         return result;
     }
     
-    public E PostOrder(Position<E> c, boolean isPrint,String prefix) {
-        Node node = validate(c);
-        E result = node.getElement();
-        Position<E> parent = node.getParent();
-        if (isPrint) {
-            System.out.println(prefix + result);
+    public void postOrder(Position<E> p) {
+    Node node = validate(p);
+
+    if (node != null) {
+        for (Position<E> child : node.getChildren()) {
+            postOrder(child); 
         }
-        if (node.hasparent()) {
-            result = PostOrder(parent, isPrint, prefix + "  ");
-        }
-        return result;
+        System.out.println(node.element); 
     }
-    public E PostOrder(Position<E> c, boolean isPrint,String prefix, String suffix) {
-        Node node = validate(c);
-        E result = node.getElement();
-        Position<E> parent = node.getParent();
-        if (isPrint) {
-            System.out.println(prefix + result);
+}
+    public void postOrder(Position<E> p,boolean isPrint,String prefix) {
+        Node node = validate(p);
+
+        if (node != null) {
+            for (Position<E> child : node.getChildren()) {
+                postOrder(child,isPrint, prefix + "  "); 
+
+            }
+            if(isPrint){
+                System.out.println(prefix + node.element); 
+            }
         }
-        if (node.hasparent()) {
-            result = PostOrder(parent, isPrint, prefix + suffix);
-        }
-        return result;
     }
 }

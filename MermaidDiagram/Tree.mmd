@@ -1,14 +1,49 @@
 classDiagram
-    class Duck{
-      +String beakColor
-      +swim()
-      +quack()
+    class LinkTree~E~ {
+        -Position<E> root
+        -int size
+        +LinkTree()
+        +Position<E> addRoot(E e)
+        +Position<E> addChild(Position<E> p, E e)
+        +void remove(Position<E> p)
+        +void printfamilyTree(Position<E> p, String prefix)
+        +void printfamilyTree(Position<E> p, String prefix, String suffix)
+        +E PreOrder(Position<E> p, boolean isPrint, String prefix)
+        +E PreOrder(Position<E> p, boolean isPrint, String prefix, String suffix)
+        +E PostOrder(Position<E> c, boolean isPrint, String prefix)
+        +E PostOrder(Position<E> c, boolean isPrint, String prefix, String suffix)
+        +Position<E> root()
+        +Position<E> parent(Position<E> p)
+        +Iterable<Position<E>> children(Position<E> p)
+        +int numChildren(Position<E> p)
+        +boolean isInternal(Position<E> p)
+        +boolean isExternal(Position<E> p)
+        +boolean isRoot(Position<E> p)
+        +int size()
+        +boolean isEmpty()
+        +Iterator<E> iterator()
+        +Iterable<Position<E>> positions()
     }
-    class Fish{
-      -int sizeInFeet
-      -canEat()
+
+    class Node {
+        -E element
+        -Node parent
+        -List<Node> children
+        +E getElement()
+        +Position<E> getParent()
+        +Iterable<Position<E>> getChildren()
+        +boolean hasChildren()
+        +boolean hasparent()
+        +String toString()
     }
-    class Zebra{
-      +bool is_wild
-      +run()
+
+
+
+    LinkTree~E~ "1" o-- "1" Node : contains
+
+    class Position~E~ {
+        +E getElement()
     }
+
+    Node ..|> Position~E~
+    LinkTree~E~ ..|> Tree~E~

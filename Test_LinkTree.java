@@ -16,26 +16,12 @@ public class Test_LinkTree {
         Position<String> BabyCarrot = tree.addChild(Carrot, "BabyCarrot");
         System.out.println("Root: " + tree.root().getElement());
         System.out.println("Children of root:");
-        tree.printfamilyTree(root, " ");
-        tree.PreOrder(root, true, " ");
-        tree.PostOrder(Potato, true, " ");
-
-        Iterable<Position<String>> positions = tree.positions();
-        for (Position<String> pos : positions) {
-            System.out.println("Position: " + pos.getElement());
-        }
-        System.out.println("Family tree before removal:");
-        tree.printfamilyTree(root, " ");
-        positions = tree.positions();
-        for (Position<String> pos : positions) {
-            if (pos.getElement().equals("Mandarin")) {
-                tree.remove(pos);
-                System.out.println("Removed: " + pos.getElement());
-                break;
-            }
-        }
-        System.out.println("Family tree after removal:");
         tree.printfamilyTree(root, " "," | ");
+
+        System.out.println("Preorder traversal:");
+        tree.PreOrder(root, true, " ");
+        System.out.println("Postorder traversal:");
+        tree.postOrder(root,true," ");
     }
 }
 
